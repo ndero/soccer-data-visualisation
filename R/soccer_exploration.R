@@ -1,4 +1,6 @@
-# summary of home games and away games for each team
+# summary of home games and away games for all the teams in a league
+# gives an overall glimpse of the teams' long term performance in terms of
+# games played both at home and away and their respective outcomes.
 soccer_summary <- function(df=epl){
   df <- droplevels(na.omit(df)) # drop the "" level in FTR when there are NA's
   home_games <- with(df, tapply(FTR, list(HomeTeam, FTR), length))
@@ -11,7 +13,7 @@ soccer_summary <- function(df=epl){
 }
 
 # for any head to head, home games or away games summary
-# the venue can either be
+# the venue can either be:
 #        1. home - hometeam's n home games against awayteam
 #        2. away - hometeam's n away games against awayteam
 #        3. home and away - hometeam's n home and away games
@@ -63,7 +65,10 @@ soccer_score <- function(home.team="Chelsea", away.team="Tottenham",
 
 # printing the league table for any league and season
 soccer_table <- function(df=epl, season = "17/18"){
- # function for calculating the scores
+ # function for calculating the scores in terms of points
+ #        win - 3 points
+ #        lose - 0 points
+ #        draw - 1 point
  scores <- function(j, df) {
   u <-  df[with(df, HomeTeam == j | AwayTeam == j), ]
   point <- with(u,
@@ -92,4 +97,93 @@ soccer_table <- function(df=epl, season = "17/18"){
   mat <- data.frame(t(sapply(teams, scores, df)))
   mat <- mat[with(mat, rev(order(points, GD))),  ]
   return(mat)
+}
+
+# head to head statistics about a team; usually with reference to another one
+soccer_analyze <- function(home.team = "Chelsea", away.team = "Man United", df=epl, n=30) {
+
+  # a function to calculate summary statistics
+  summary_stat <- function(df) {
+    played <- nrow(df)
+    won <-  sum(with(df, FTR == "won"))
+    draw <- sum(with(df, FTR == "draw"))
+    lost <- sum(with(df, FTR == "lost"))
+    prop.won <-  round(won/played, 4)
+    prop.draw <- round(draw/played, 4)
+    prop.lost <- round(lost/played, 4)
+    stats <- c(played, won, draw, lost, prop.won, prop.draw, prop.lost)
+    return(stats)
+  }
+
+  # hometeam home games summary
+  home.games <- soccer_score(home.team, away.team, venue = "home", n, df)
+  rownames(home.games) <- NULL
+  goal.diff <- sum(with(home.games, FTHG - FTAG))
+  a <- c(summary_stat(home.games), goal.diff)
+
+  # hometeam away games summary
+  away.games <- soccer_score(home.team, away.team, venue = "away", n, df)
+  rownames(away.games) <- NULL
+  goal.diff <- sum(with(away.games, FTAG - FTHG))
+  b <- c(summary_stat(away.games), goal.diff)
+
+  # hometeam home and away games summary
+  home.away.games <- soccer_score(home.team, away.team, venue = "home and away", n, df)
+  rownames(home.away.games) <- NULL
+  goal.diff <- sum(with(home.away.games,
+                        ifelse(HomeTeam==home.team, FTHG - FTAG, FTAG - FTHG)))
+  c <- c(summary_stat(home.away.games), goal.diff)
+
+  # hometeam all home games summary
+  home.team.all.home.games <- soccer_score(home.team, away.team, venue = "all home", n, df)
+  rownames(home.team.all.home.games) <- NULL
+  goal.diff <- sum(with(home.team.all.home.games, FTHG - FTAG))
+  d <- c(summary_stat(home.team.all.home.games), goal.diff)
+
+  # awayteam all home games summary
+  away.team.all.home.games <- soccer_score(away.team, home.team, venue = "all home", n, df)
+  rownames(away.team.all.home.games) <- NULL
+  goal.diff <- sum(with(away.team.all.home.games, FTHG - FTAG))
+  e <- c(summary_stat(away.team.all.home.games), goal.diff)
+
+  # hometeam all away games summary
+  home.team.all.away.games <- soccer_score(home.team, away.team, venue = "all away", n, df)
+  rownames(home.team.all.away.games) <- NULL
+  goal.diff <- sum(with(home.team.all.away.games, FTAG - FTHG))
+  f <- c(summary_stat(home.team.all.away.games), goal.diff)
+
+  # awayteam all way games summary
+  away.team.all.away.games <- soccer_score(away.team, home.team, venue = "all away", n, df)
+  rownames(away.team.all.away.games) <- NULL
+  goal.diff <- sum(with(away.team.all.away.games, FTAG - FTHG))
+  g <- c(summary_stat(away.team.all.away.games), goal.diff)
+
+  # hometeam all games summary
+  home.team.all.games  <- soccer_score(home.team, away.team, venue = "all", n, df)
+  rownames(home.team.all.games) <- NULL
+  goal.diff <- sum(with(home.team.all.games, ifelse(HomeTeam==home.team, FTHG - FTAG, FTAG - FTHG)))
+  h <- c(summary_stat(home.team.all.g
+
+  # awayteam all games summary
+  away.team.all.games  <- soccer_score(away.team, home.team, venue = "all", n, df)
+  rownames(away.team.all.games) <- NULL
+  goal.diff <- sum(with(away.team.all.games, ifelse(HomeTeam==away.team, FTHG - FTAG, FTAG - FTHG)))
+  i <- c(summary_stat(away.team.all.games), goal.diff)
+
+  # putting everything together
+  s <- as.character(tail(df[, "season"], 1))  # needed for the league table
+  st <- data.frame(rbind(a, b, c, d, e, f, g, h, i))
+  rownames(st) <- c(paste("Home against", away.team), paste("Away against", away.team),
+                    paste("Home and Away against", away.team), paste(home.team, "home games"),
+                    paste(away.team, "home games"), paste(home.team, "away games"),
+                    paste(away.team, "away games"), paste(home.team, "home and away games"),
+                    paste(away.team, "home and away games"))
+  colnames(st) <- c("played", "won", "draw", "lost", "prop.won", "prop.draw", "prop.lost", "goal.diff")
+  k <- list(st, head(home.away.games, 15), head(home.team.all.games ,10),
+                head(away.team.all.games, 10), soccer_table(df, season = s))
+  names(k) <- c(paste(home.team, "vs", away.team, "most recent", n, "games summary"), "Head to head",
+                paste(home.team, "recent home and away games"),
+                paste(away.team, "recent home and away games"),
+                paste(" season", s, "league table"))
+  return(k)
 }
