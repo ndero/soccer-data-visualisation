@@ -1,6 +1,17 @@
 # summary of home games and away games for all the teams in a league
 # gives an overall glimpse of the teams' long term performance in terms of
 # games played both at home and away and their respective outcomes.
+
+# required libraries
+      # dplyr - function group_by and summarize used in grouping the data
+      #         to prepare it for plotting
+      # plotly - function plot_ly, used to plot pie chart
+
+# loading the required libraries
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
 soccer_summary <- function(df=epl){
   df <- droplevels(na.omit(df)) # drop the "" level in FTR when there are NA's
   home_games <- with(df, tapply(FTR, list(HomeTeam, FTR), length))
@@ -186,4 +197,15 @@ soccer_analyze <- function(home.team = "Chelsea", away.team = "Man United", df=e
                 paste(away.team, "recent home and away games"),
                 paste(" season", s, "league table"))
   return(k)
+}
+
+# function for plotting a pie chart representing the proportion of games won, drawn or
+# lost by the home team and away team both away and at home.
+soccer_pie <- function(home.team, away.team, venue, n, df){
+ d <- soccer_score(home.team, away.team, venue = "home and away", n, df)
+ score <- d %>% group_by(FTR) %>%  summarize(count = n())
+ plot_ly(score, labels = ~FTR, values = ~count,
+        type = 'pie', textposition = 'inside',
+        textinfo = 'label+percent') %>%
+        layout(title = paste(home.team, ' against ', away.team, sep = ""))
 }
