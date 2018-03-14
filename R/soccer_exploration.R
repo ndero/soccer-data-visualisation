@@ -3,9 +3,9 @@
 # games played both at home and away and their respective outcomes.
 
 # required libraries
-      # dplyr - function group_by and summarize used in grouping the data
-      #         to prepare it for plotting
-      # plotly - function plot_ly, used to plot pie chart
+      # dplyr - function group_by and summarize used in grouping the data.
+      #         to prepare it for plotting, also has the pipe operator( %>% ).
+      # plotly - function plot_ly, used to plot pie chart and bar graph.
 
 # loading the required libraries
 library(dplyr)
@@ -208,4 +208,22 @@ soccer_pie <- function(home.team, away.team, venue, n, df){
         type = 'pie', textposition = 'inside',
         textinfo = 'label+percent') %>%
         layout(title = paste(home.team, ' against ', away.team, sep = ""))
+}
+
+# produces bar graph displaying match statistics for both home team
+# and away team
+soccer_bar <- function(home.team, away.team, df, n) {
+  df <- soccer_analyze(home.team, away.team, df, n)[[1]]
+  home <- df[8, c('won', 'draw', 'lost', 'goal.diff')]
+  away <- df[9, c('won', 'draw', 'lost', 'goal.diff')]
+  d <- rbind(home, away)
+  d$names <- c(home.team, away.team)
+
+plot_ly(d, x = ~ names, y = ~ draw, type = 'bar', name = 'draw',
+       hoverinfo = 'name+y') %>%
+  add_trace(y = ~ lost, name = 'lost') %>%
+  add_trace(y = ~ won, name = 'won') %>%
+  layout(yaxis = list(title = "Match Outcome"),
+         xaxis = list(title = ""),
+         title = paste("Recent", n, "games summary"))
 }
