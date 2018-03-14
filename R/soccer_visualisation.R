@@ -150,7 +150,15 @@ server <- function(input, output, session) {
     soccer_table(df = datasetInput())
   }, rownames = TRUE, digits = 0)
 
-
+  # updates the current hometeam based on the selected league
+  observe({
+    input$league
+    updateSelectInput(session,
+                      inputId = "HomeTeam",
+                      label = "Select the home team",
+                      choices = levels(datasetInput()$HomeTeam),
+                      selected = levels(datasetInput()$HomeTeam)[2])
+  })
 
   # update the current awayteam based on the selected league
   observe({
