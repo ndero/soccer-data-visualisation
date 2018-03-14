@@ -61,3 +61,35 @@ soccer_score <- function(home.team="Chelsea", away.team="Tottenham",
 }
 
 
+# printing the league table for any league and season
+soccer_table <- function(df=epl, season = "17/18"){
+ # function for calculating the scores
+ scores <- function(j, df) {
+  u <-  df[with(df, HomeTeam == j | AwayTeam == j), ]
+  point <- with(u,
+                ifelse(HomeTeam==j,
+                ifelse(FTR == "H", 3,
+                ifelse(FTR == "A", 0 , 1)),
+                ifelse(FTR == "H", 0,
+                ifelse(FTR == "A", 3, 1))))
+  won <- sum(point==3)
+  draw <- sum(point==1)
+  lost <- sum(point==0)
+  played <- length(point)
+  points <- sum(point)
+  GD <- sum(with(u, ifelse(HomeTeam == j, (FTHG - FTAG), (FTAG - FTHG))))
+  GF <- sum(with(u, ifelse(HomeTeam == j, FTHG, FTAG)))
+  GA <- sum(with(u, ifelse(HomeTeam == j, FTAG, FTHG)))
+  played <- nrow(u)
+  c(played = played, won = won, draw = draw, lost = lost, GF = GF, GA = GA, GD = GD, points = points)
+ }
+
+  df <- na.omit(df) # get rid of missing values
+  df <- df[with(df, season) == season, ]
+  df$HomeTeam <- as.character(df$HomeTeam)
+  df$AwayTeam <- as.character(df$AwayTeam)
+  teams <- unique(with(df, c(HomeTeam, AwayTeam)))
+  mat <- data.frame(t(sapply(teams, scores, df)))
+  mat <- mat[with(mat, rev(order(points, GD))),  ]
+  return(mat)
+}
