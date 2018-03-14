@@ -227,3 +227,25 @@ plot_ly(d, x = ~ names, y = ~ draw, type = 'bar', name = 'draw',
          xaxis = list(title = ""),
          title = paste("Recent", n, "games summary"))
 }
+
+# loading the soccer datasets into R
+# assumes the files are stored in the current working directory
+epl_full <- read.csv("epl_full.csv")
+eng_champ <- read.csv("eng_champ.csv")
+eng_league_one <- read.csv("eng_league_one.csv")
+eng_league_two <- read.csv("eng_league_two.csv")
+eng_conference <- read.csv("eng_conference.csv")
+scot_prem <- read.csv("scot_prem.csv")
+bundes_one <- read.csv("bundes_one.csv")
+bundes_two <- read.csv("bundes_two.csv")
+serie_a <- read.csv("serie_a.csv")
+serie_b <- read.csv("serie_b.csv")
+laliga_prem <- read.csv("laliga_prem.csv")
+laliga_segunda <- read.csv("laliga_segunda.csv")
+france_prem <- read.csv("france_prem.csv")
+france_div2 <- read.csv("france_div2.csv")
+netherlands_eredivisie <- read.csv("netherlands_eredivisie.csv")
+belgium_jupiler <- read.csv("belgium_jupiler.csv")
+portugal_liga <- read.csv("portugal_liga.csv")
+turkey_ligi <- read.csv("turkey_ligi.csv")
+greece_ethniki <- read.csv("greece_ethniki.csv")
