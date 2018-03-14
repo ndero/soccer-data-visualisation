@@ -150,6 +150,17 @@ server <- function(input, output, session) {
     soccer_table(df = datasetInput())
   }, rownames = TRUE, digits = 0)
 
+
+
+  # update the current awayteam based on the selected league
+  observe({
+    input$league
+    updateSelectInput(session,
+                      inputId = "AwayTeam",
+                      label = "Select the away team",
+                      choices = levels(datasetInput()$AwayTeam))
+  })
+
 }
 
 # Create Shiny app
