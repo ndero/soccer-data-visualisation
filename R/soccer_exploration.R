@@ -172,7 +172,7 @@ soccer_analyze <- function(home.team = "Chelsea", away.team = "Man United", df=e
   home.team.all.games  <- soccer_score(home.team, away.team, venue = "all", n, df)
   rownames(home.team.all.games) <- NULL
   goal.diff <- sum(with(home.team.all.games, ifelse(HomeTeam==home.team, FTHG - FTAG, FTAG - FTHG)))
-  h <- c(summary_stat(home.team.all.g
+  h <- c(summary_stat(home.team.all.games), goal.diff)
 
   # awayteam all games summary
   away.team.all.games  <- soccer_score(away.team, home.team, venue = "all", n, df)

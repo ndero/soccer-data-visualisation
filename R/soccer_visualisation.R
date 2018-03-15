@@ -23,13 +23,13 @@ ui <- fluidPage(
       # Input: Selector for choosing the home team
       selectInput(inputId  = "HomeTeam",
                   label    = "select the home team",
-                  choices  = levels(epl$HomeTeam),
+                  choices  = levels(epl_full$HomeTeam),
                   selected = "Man United"),
 
       # Input: Selector for choosing away team
       selectInput(inputId  = "AwayTeam",
                   label    = "select the away team",
-                  choices  = levels(epl$AwayTeam),
+                  choices  = levels(epl_full$AwayTeam),
                   selected = "Chelsea"),
 
       # Input: Numeric entry for number of games to base the summary on
