@@ -1,7 +1,4 @@
-# summary of home games and away games for all the teams in a league
-# gives an overall glimpse of the teams' long term performance in terms of
-# games played both at home and away and their respective outcomes.
-
+# functions for obtaining different summaries for teams in given leagues
 # required libraries
       # dplyr - function group_by and summarize used in grouping the data.
       #         to prepare it for plotting, also has the pipe operator( %>% ).
@@ -11,6 +8,9 @@
 library(dplyr)
 library(plotly)
 
+# summary of home games and away games for all the teams in a league
+# gives an overall glimpse of the teams' long term performance in terms of
+# games played both at home and away and their respective outcomes.
 soccer_summary <- function(df=epl){
   df <- droplevels(na.omit(df)) # drop the "" level in FTR when there are NA's
   home_games <- with(df, tapply(FTR, list(HomeTeam, FTR), length))
@@ -76,7 +76,7 @@ soccer_score <- function(home.team="Chelsea", away.team="Tottenham",
 # printing the league table for any league and season
 soccer_table <- function(df=epl, season = "17/18"){
  # function for calculating the scores in terms of points
- #        win - 3 points
+ #        win  - 3 points
  #        lose - 0 points
  #        draw - 1 point
  scores <- function(j, df) {
@@ -112,7 +112,7 @@ soccer_table <- function(df=epl, season = "17/18"){
 # head to head statistics about a team; usually with reference to another one
 soccer_analyze <- function(home.team = "Chelsea", away.team = "Man United", df=epl, n=30) {
 
-  # a function to calculate summary statistics
+  # a function to calculate summary statistics, in terms of games drawn, lost or won
   summary_stat <- function(df) {
     played <- nrow(df)
     won <-  sum(with(df, FTR == "won"))
@@ -172,7 +172,7 @@ soccer_analyze <- function(home.team = "Chelsea", away.team = "Man United", df=e
   home.team.all.games  <- soccer_score(home.team, away.team, venue = "all", n, df)
   rownames(home.team.all.games) <- NULL
   goal.diff <- sum(with(home.team.all.games, ifelse(HomeTeam==home.team, FTHG - FTAG, FTAG - FTHG)))
-  h <- c(summary_stat(home.team.all.g
+  h <- c(summary_stat(home.team.all.games), goal.diff)
 
   # awayteam all games summary
   away.team.all.games  <- soccer_score(away.team, home.team, venue = "all", n, df)
@@ -198,7 +198,7 @@ soccer_analyze <- function(home.team = "Chelsea", away.team = "Man United", df=e
   return(k)
 }
 
-# function for plotting a pie chart representing the proportion of games won, drawn or
+# plots a pie chart representing the proportion of games won, drawn or
 # lost by the home team and away team both away and at home.
 soccer_pie <- function(home.team, away.team, venue, n, df){
  d <- soccer_score(home.team, away.team, venue = "home and away", n, df)
