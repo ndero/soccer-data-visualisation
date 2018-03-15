@@ -12,7 +12,7 @@ ui <- fluidPage(
 
       # Input: Selector for choosing the league
       selectInput(inputId = "league",
-                  label = "Select league",
+                  label   = "Select league",
                   choices = c("Epl", "Laliga", "Bundesliga", "France League One", "Serie A", "Portugal Liga",
                               "Scot Prem", "Greece Ethniki", "Bundes Two", "Belgium Jupiler",
                               "Turkey Ligi", "Netherlands Eredivisie", "English Championship",
@@ -21,23 +21,23 @@ ui <- fluidPage(
       hr(),
 
       # Input: Selector for choosing the home team
-      selectInput(inputId = "HomeTeam",
-                  label = "select the home team",
-                  choices = levels(epl$HomeTeam),
+      selectInput(inputId  = "HomeTeam",
+                  label    = "select the home team",
+                  choices  = levels(epl$HomeTeam),
                   selected = "Man United"),
 
       # Input: Selector for choosing away team
-      selectInput(inputId = "AwayTeam",
-                  label = "select the away team",
-                  choices = levels(epl$AwayTeam),
+      selectInput(inputId  = "AwayTeam",
+                  label    = "select the away team",
+                  choices  = levels(epl$AwayTeam),
                   selected = "Chelsea"),
 
       # Input: Numeric entry for number of games to base the summary on
       numericInput(inputId = "games",
-                   label = "Number of games",
-                   value = 5,
-                   step = 5,
-                   min = 5)
+                   label   = "Number of games",
+                   value   = 3,
+                   step    = 5,
+                   min     = 5)
     ),
 
     # Main panel for displaying outputs
@@ -95,54 +95,54 @@ server <- function(input, output, session) {
 
   # Generates a pie chart summary for the selected league and teams
   output$pie_chart <- renderPlotly({
-    soccer_pie(home.team = input$HomeTeam,
+    soccer_pie(home.team  = input$HomeTeam,
                 away.team = input$AwayTeam,
-                venue = "home and away",
-                n = input$games,
-                df = datasetInput())
+                venue     =  "home and away",
+                n         = input$games,
+                df        = datasetInput())
   })
 
   # Generate a bar chart summary for the selected league and teams
   output$bar_chart <- renderPlotly({
-    soccer_bar(home.team = input$HomeTeam,
+    soccer_bar(home.team  = input$HomeTeam,
                 away.team = input$AwayTeam,
-                n = input$games,
-                df = datasetInput())
+                n         = input$games,
+                df        = datasetInput())
   })
 
   # Generate summary statistics for the currently selected hometeam and awayteam
   output$head_to_head <- renderTable({
-    soccer_score(home.team = input$HomeTeam,
+    soccer_score(home.team  = input$HomeTeam,
                   away.team = input$AwayTeam,
-                  venue = "home and away",
-                  df = datasetInput(),
-                  n = 15)
+                  venue     = "home and away",
+                  df        = datasetInput(),
+                  n         = 15)
   })
 
   # Outputs the last six games played at home by the selected hometeam
   output$last_six_home <- renderTable({
-    soccer_score(home.team = input$HomeTeam,
+    soccer_score(home.team  = input$HomeTeam,
                   away.team = input$AwayTeam,
-                  venue = "all",
-                  df = datasetInput(),
-                  n = 8)
+                  venue     = "all",
+                  df        = datasetInput(),
+                  n         = 8)
   })
 
   # Outputs the last six away games played away by the selected hometeam
   output$last_six_away <- renderTable({
-    soccer_score(home.team = input$AwayTeam,
+    soccer_score(home.team  = input$AwayTeam,
                   away.team = input$HomeTeam,
-                  venue = "all",
-                  df = datasetInput(),
-                  n = 8)
+                  venue     = "all",
+                  df        = datasetInput(),
+                  n         = 8)
   })
 
   # Generate summary table for the selected league and teams
   output$soccer_summary <- renderTable({
     soccer_analyze(home.team = input$HomeTeam,
-                  away.team = input$AwayTeam,
-                  df = datasetInput(),
-                  n = input$games)[[1]]
+                  away.team  = input$AwayTeam,
+                  df         = datasetInput(),
+                  n          = input$games)[[1]]
   }, rownames = TRUE)
 
   # Generate current league table standings for the selected teams' league
@@ -154,9 +154,9 @@ server <- function(input, output, session) {
   observe({
     input$league
     updateSelectInput(session,
-                      inputId = "HomeTeam",
-                      label = "Select the home team",
-                      choices = levels(datasetInput()$HomeTeam),
+                      inputId  = "HomeTeam",
+                      label    = "Select the home team",
+                      choices  = levels(datasetInput()$HomeTeam),
                       selected = levels(datasetInput()$HomeTeam)[2])
   })
 
@@ -165,7 +165,7 @@ server <- function(input, output, session) {
     input$league
     updateSelectInput(session,
                       inputId = "AwayTeam",
-                      label = "Select the away team",
+                      label   = "Select the away team",
                       choices = levels(datasetInput()$AwayTeam))
   })
 
