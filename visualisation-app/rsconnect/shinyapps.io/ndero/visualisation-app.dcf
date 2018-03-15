@@ -1,0 +1,10 @@
+name: visualisation-app
+title:
+username:
+account: ndero
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 299931
+bundleId: 1269929
+url: https://ndero.shinyapps.io/visualisation-app/
+when: 1521115092.61858
