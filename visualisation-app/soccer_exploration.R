@@ -1,12 +1,4 @@
 # functions for obtaining different summaries for teams in given leagues
-# required libraries
-      # dplyr - function group_by and summarize used in grouping the data.
-      #         to prepare it for plotting, also has the pipe operator( %>% ).
-      # plotly - function plot_ly, used to plot pie chart and bar graph.
-
-# loading the required libraries
-library(dplyr)
-library(plotly)
 
 # summary of home games and away games for all the teams in a league
 # gives an overall glimpse of the teams' long term performance in terms of

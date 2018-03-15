@@ -1,10 +1,15 @@
 # loads the functions in soccer_exploration and soccer_visualization
 # and starts the browser for interactive visualization
-# required libraries
-#     1. Rshiny - allows visualizing data interactively on the browser
+# required libraries:
+#       Rshiny - allows visualizing data interactively on the browser
+#       dplyr - function group_by and summarize used in grouping the data.
+#               to prepare it for plotting, also has the pipe operator( %>% ).
+#       plotly - function plot_ly, used to plot pie chart and bar graph.
 
 # load the required libraries
 library(shiny)
+library(dplyr)
+library(plotly)
 
 # set display width of the terminal to capture all the output in one screen
 options(width=120)
@@ -12,8 +17,7 @@ options(width=120)
 # load required functions
 source("soccer_exploration.R")
 
-# loading the soccer datasets into R
-# assumes the files are stored in the current working directory
+# load the soccer datasets into R
 epl_full <- read.csv("data/epl_full.csv")
 eng_champ <- read.csv("data/eng_champ.csv")
 eng_league_one <- read.csv("data/eng_league_one.csv")
@@ -33,7 +37,4 @@ belgium_jupiler <- read.csv("data/belgium_jupiler.csv")
 portugal_liga <- read.csv("data/portugal_liga.csv")
 turkey_ligi <- read.csv("data/turkey_ligi.csv")
 greece_ethniki <- read.csv("data/greece_ethniki.csv")
-
-# run the app and automatically start it in the default browser
-runApp('app.R', launch.browser =T)
 
