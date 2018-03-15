@@ -35,9 +35,9 @@ ui <- fluidPage(
       # Input: Numeric entry for number of games to base the summary on
       numericInput(inputId = "games",
                    label = "Number of games",
-                   value = 3,
-                   step = 2,
-                   min = 3)
+                   value = 5,
+                   step = 5,
+                   min = 5)
     ),
 
     # Main panel for displaying outputs
