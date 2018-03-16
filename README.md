@@ -12,7 +12,9 @@
 </ul>
 </details><br>
 
-![image](visualisation-app/images/demo.gif)
+![image](visualisation-app/images/sample.gif)
+
+> Want to try out this app online? If yes, check it out [here](https://ndero.shinyapps.io/visualisation-app/).
 
 #### Requirements
 ***
@@ -37,8 +39,4 @@ You should have [R](https://www.r-project.org/), preferably version 3.4.4, insta
     library(shiny)
     runApp()
   ```
-
-#### Live demo
-***
-Want to try out this app online? If yes, check it out [here](https://ndero.shinyapps.io/visualisation-app/).
 
