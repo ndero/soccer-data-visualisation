@@ -14,7 +14,7 @@
 
 ![image](visualisation-app/images/sample.gif)
 
-> Want to try out this app online? If yes, check it out [here](https://ndero.shinyapps.io/visualisation-app/).
+Want to try out this app online? If yes, check it out [here](https://ndero.shinyapps.io/visualisation-app/).
 
 #### Requirements
 ***
