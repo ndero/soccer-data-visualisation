@@ -1,4 +1,4 @@
-### Soccer data visualisation using R
+<h1 align="center">⭐️ Soccer data visualisation using R  </h1>
 <details><summary> An R app for visualising, interactively, soccer data across various leagues.
 </summary>
  <h4>Features</h4>
@@ -15,12 +15,14 @@
 < coming soon >
 
 #### Requirements
+***
 You should have [R](https://www.r-project.org/), preferably version 3.4.4, installed on your machine and the following R packages:
 - [tidyr](http://dplyr.tidyverse.org/)
 - [plotly](https://plot.ly/)
 - [Rshiny](https://shiny.rstudio.com/)
 
 #### How to run the app on your machine
+***
  After installing R start the terminal if on mac/linux or the command line if using windows, get this app running locally on your machine with these 3 easy steps:
 1. If you've git installed on your machine, clone this repo.*Alternatively, if you don't have git installed just download the code and extract the files.*
   ```
@@ -37,5 +39,6 @@ You should have [R](https://www.r-project.org/), preferably version 3.4.4, insta
   ```
 
 #### Live demo
-<p>Want to try out this app online? If yes, check it out [here](https://ndero.shinyapps.io/visualisation-app/).</p>
+***
+Want to try out this app online? If yes, check it out [here](https://ndero.shinyapps.io/visualisation-app/).
 
