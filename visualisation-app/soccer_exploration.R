@@ -223,5 +223,5 @@ plot_ly(d, x = ~ names, y = ~ draw, type = 'bar', name = 'draw',
 # if not already installed
 install_requirements <- function(packages=c("shiny", "plotly", "shiny")) {
   uninstalled_packages <- packages[!packages %in% installed.packages()[, "Package"]]
-  if(length(uninstalled_packages)) install.packages(uninstalled_packages)
+  if(length(uninstalled_packages)) install.packages(pkgs = uninstalled_packages, dependencies = TRUE)
 }
