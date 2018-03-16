@@ -103,6 +103,3 @@ server <- function(input, output, session) {
   })
 
 }
-
-# Create Shiny app
-# shinyApp(ui = ui, server = server)
