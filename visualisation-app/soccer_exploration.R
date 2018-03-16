@@ -218,3 +218,10 @@ plot_ly(d, x = ~ names, y = ~ draw, type = 'bar', name = 'draw',
          xaxis = list(title = ""),
          title = paste("Recent", n, "games summary"))
 }
+
+# helper function for automatically installing required packages
+# if not already installed
+install_requirements <- function(packages=c("shiny", "plotly", "shiny")) {
+  uninstalled_packages <- packages[!packages %in% installed.packages()[, "Package"]]
+  if(length(uninstalled_packages)) install.packages(uninstalled_packages)
+}

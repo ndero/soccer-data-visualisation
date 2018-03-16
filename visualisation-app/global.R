@@ -6,16 +6,16 @@
 #               to prepare it for plotting, also has the pipe operator( %>% ).
 #       plotly - function plot_ly, used to plot pie chart and bar graph.
 
-# load the required libraries
-library(shiny)
-library(dplyr)
-library(plotly)
-
-# set display width of the terminal to capture all the output in one screen
-options(width=120)
-
 # load required functions
 source("soccer_exploration.R")
+
+# automatically install required libraries if not installed
+install_requirements(packages=c("dplyr", "plotly", "shiny"))
+
+# load the required libraries
+library(dplyr)
+library(plotly)
+library(shiny)
 
 # load the soccer datasets into R - these are in the data folder
 epl_full <- read.csv("data/epl_full.csv")
