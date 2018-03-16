@@ -10,9 +10,9 @@
   <li>Most recent 8 games for each of the two teams being compared.</li>
   <li>Current league table standings.</li>
 </ul>
-</details>
+</details><br>
 
-< coming soon >
+![image](visualisation-app/images/demo.gif)
 
 #### Requirements
 ***
