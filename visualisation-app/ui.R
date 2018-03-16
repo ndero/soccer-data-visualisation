@@ -36,7 +36,7 @@ ui <- fluidPage(
       numericInput(inputId = "games",
                    label   = "Number of games",
                    value   = 5,
-                   step    = 5,
+                   step    = 2,
                    min     = 5)
     ),
 
